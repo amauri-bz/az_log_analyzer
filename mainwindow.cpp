@@ -192,3 +192,9 @@ void MainWindow::on_actionAbout_QT_triggered()
     msgBox->show();
 }
 
+
+void MainWindow::on_actionExit_triggered()
+{
+    this->close();
+}
+

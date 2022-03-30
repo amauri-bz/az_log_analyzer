@@ -49,6 +49,8 @@ private slots:
 
     void on_actionAbout_QT_triggered();
 
+    void on_actionExit_triggered();
+
 private:
     Ui::MainWindow *ui;
     FileTree file_tree;
