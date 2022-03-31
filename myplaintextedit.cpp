@@ -14,6 +14,7 @@ MyPlainTextEdit::MyPlainTextEdit(QWidget *parent) : QPlainTextEdit(parent)
 
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
+    setLineWrapMode(QPlainTextEdit::NoWrap);
 }
 
 int MyPlainTextEdit::lineNumberAreaWidth()

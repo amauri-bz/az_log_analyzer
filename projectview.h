@@ -23,6 +23,7 @@ public slots:
 signals:
     void s_set_proj(QString proj_path);
     void s_reload();
+    void s_set_status(QString status, int timeout);
 
 private:
     Ui::ProjectView *ui;

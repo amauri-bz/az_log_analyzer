@@ -51,7 +51,6 @@ void plainTextView::execMatch() {
                 if(block.text().contains(key)) {
                     fmt.setBackground(QColor(projectMgr::Instance()->proj_matchs_.value(key)));
                     cursor.setBlockFormat(fmt);
-                    qInfo() << "execMatch Key: " << key <<" Line: " << block.blockNumber();
                     match_lines_[key].append(block.blockNumber()+1);
                     apply = true;
                     break;
@@ -60,7 +59,6 @@ void plainTextView::execMatch() {
             if(apply == false) {
                 fmt.setBackground(QColor(QColorConstants::White));
                 cursor.setBlockFormat(fmt);
-                qInfo() << "execMatch  white";
             }
         }
         cursor.movePosition(QTextCursor::Down);

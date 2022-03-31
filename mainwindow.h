@@ -42,14 +42,11 @@ private slots:
     void on_actionSaveFile_triggered();
     void on_actionOpen_Project_triggered();
     void on_actionSave_Project_triggered();
-
     void on_actionSaveFileAs_triggered();
-
     void on_actionAbout_triggered();
-
     void on_actionAbout_QT_triggered();
-
     void on_actionExit_triggered();
+    void on_actionSeteStatus(QString status, int timeout);
 
 private:
     Ui::MainWindow *ui;

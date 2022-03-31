@@ -23,8 +23,6 @@ void IndexTree::createIndex(const QMap<QString, QList<int> >& data) {
     int count = 0;
     for(QString key : projectMgr::Instance()->proj_matchs_.keys())
     {
-        qInfo() << "createIndex Key: " << key;
-
         if(data.value(key).count()<=0)
             continue;
 

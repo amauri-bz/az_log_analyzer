@@ -16,10 +16,11 @@ bool ProjectMgr::ReadFile(QString proj_dir, QString proj_name) {
     QFile loadFile(filePath);
 
     if (!loadFile.open(QIODevice::ReadOnly)) {
-        qInfo() << filePath;
         qWarning("ReadProjFile Couldn't open save file.");
         return false;
     }
+
+    projectMgr::Instance()->proj_matchs_.clear();
 
     QByteArray saveData = loadFile.readAll();
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
@@ -28,11 +29,9 @@ bool ProjectMgr::ReadFile(QString proj_dir, QString proj_name) {
     projectMgr::Instance()->proj_dir_ = proj_dir;
 
     if (loadDoc.object().contains("sync") && loadDoc.object()["sync"].isString()) {
-         qInfo() << "ReadProjFile:" << loadDoc["sync"].toString();
          projectMgr::Instance()->proj_sync_ = loadDoc["sync"].toBool();
     }
     if (loadDoc.object().contains("reload") && loadDoc.object()["reload"].isDouble()) {
-         qInfo() << "ReadProjFile:" << loadDoc["reload"].toString();
          projectMgr::Instance()->proj_reload_ = loadDoc.object()["reload"].toInt();
     }
 
@@ -43,7 +42,6 @@ bool ProjectMgr::ReadFile(QString proj_dir, QString proj_name) {
         for (int Index = 0; Index < sArray.size(); ++Index) {
             QJsonObject levelObject = sArray[Index].toObject();
             if (sArray[Index].isString()) {
-                 qInfo() << "ReadProjFile:" << sArray[Index].toString();
                  projectMgr::Instance()->proj_servers_.append(sArray[Index].toString());
             }
         }
@@ -56,7 +54,6 @@ bool ProjectMgr::ReadFile(QString proj_dir, QString proj_name) {
         for (int Index = 0; Index < sArray.size(); ++Index) {
             QJsonObject levelObject = sArray[Index].toObject();
             if (sArray[Index].isString()) {
-                 qInfo() << "ReadProjFile:" << sArray[Index].toString();
                  projectMgr::Instance()->proj_files_.append(sArray[Index].toString());
             }
         }
@@ -66,7 +63,6 @@ bool ProjectMgr::ReadFile(QString proj_dir, QString proj_name) {
         auto json = loadDoc.object()["match"].toObject();
         foreach(const QString& key, json.keys()) {
             QJsonValue value = json.value(key);
-            qDebug() << "ReadProjFile: Key = " << key << ", Value = " << value.toString();
             projectMgr::Instance()->proj_matchs_[key] = value.toString();
         }
     }
@@ -77,7 +73,6 @@ bool ProjectMgr::ReadFile(QString proj_dir, QString proj_name) {
 bool ProjectMgr::CreateProjFile(QString proj_dir, QString proj_name) const
 {
     QFile saveFile(proj_dir + "/" +proj_name + ".json");
-    qInfo() << proj_dir + "/" +proj_name + ".json";
 
     if (!saveFile.open(QIODevice::WriteOnly)) {
         qWarning("Couldn't open save file.");

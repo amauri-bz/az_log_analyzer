@@ -15,8 +15,6 @@ FileTree::~FileTree()
 }
 
 void FileTree::setProj(QString proj_path) {
-    qInfo() << "Set proj in filetree: " + proj_path;
-
     model.setFilter( QDir::AllDirs | QDir::AllEntries | QDir::NoDotAndDotDot);
     model.setRootPath(proj_path);
 

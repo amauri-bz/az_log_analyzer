@@ -126,30 +126,6 @@
     <string>Exit</string>
    </property>
   </action>
-  <action name="actionUndo">
-   <property name="icon">
-    <iconset resource="img/img.qrc">
-     <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
-   </property>
-   <property name="text">
-    <string>Undo</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Z</string>
-   </property>
-  </action>
-  <action name="actionRedo">
-   <property name="icon">
-    <iconset resource="img/img.qrc">
-     <normaloff>:/img/redo.png</normaloff>:/img/redo.png</iconset>
-   </property>
-   <property name="text">
-    <string>Redo</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+Z</string>
-   </property>
-  </action>
   <action name="actionSaveFileAs">
    <property name="icon">
     <iconset resource="img/img.qrc">
@@ -163,42 +139,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
-   </property>
-  </action>
-  <action name="actionCopy">
-   <property name="icon">
-    <iconset resource="img/img.qrc">
-     <normaloff>:/img/copy.png</normaloff>:/img/copy.png</iconset>
-   </property>
-   <property name="text">
-    <string>Copy</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+C</string>
-   </property>
-  </action>
-  <action name="actionPaste">
-   <property name="icon">
-    <iconset resource="img/img.qrc">
-     <normaloff>:/img/paste.png</normaloff>:/img/paste.png</iconset>
-   </property>
-   <property name="text">
-    <string>Paste</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+V</string>
-   </property>
-  </action>
-  <action name="actionCut">
-   <property name="icon">
-    <iconset resource="img/img.qrc">
-     <normaloff>:/img/cut.png</normaloff>:/img/cut.png</iconset>
-   </property>
-   <property name="text">
-    <string>Cut</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+X</string>
    </property>
   </action>
   <action name="actionNew_Project">

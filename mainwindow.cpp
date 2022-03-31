@@ -13,9 +13,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->addDockWidget(Qt::LeftDockWidgetArea, &file_tree);
     this->setCentralWidget(&tab_view);
-    this->addDockWidget(Qt::RightDockWidgetArea, &index_tree);
-    this->addDockWidget(Qt::LeftDockWidgetArea, &project_view);
-    this->addDockWidget(Qt::RightDockWidgetArea, &find_view);
+    this->addDockWidget(Qt::LeftDockWidgetArea, &find_view);
+
+    this->tabifyDockWidget(&file_tree, &index_tree);
+    this->tabifyDockWidget(&file_tree, &project_view);
 
     QObject::connect(this, &MainWindow::s_new_tab, &tab_view, &TabView::newTab);
     QObject::connect(this, &MainWindow::s_new_proj, &project_view, &ProjectView::newProj);
@@ -30,12 +31,19 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(&tab_view, &TabView::s_update_tree, &index_tree, &IndexTree::createIndex);
     QObject::connect(&index_tree, &IndexTree::s_go_to_line, &tab_view, &TabView::goToLine);
     QObject::connect(&find_view, &FindView::s_find_text, &tab_view, &TabView::findText);
+
+    //StatusBar connection
+    QObject::connect(&project_view, &ProjectView::s_set_status, this, &MainWindow::on_actionSeteStatus);
     this->setAcceptDrops(true);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_actionSeteStatus(QString status, int timeout) {
+    statusBar()->showMessage(status, timeout);
 }
 
 void MainWindow::on_actionNewFile_triggered()
@@ -192,9 +200,7 @@ void MainWindow::on_actionAbout_QT_triggered()
     msgBox->show();
 }
 
-
 void MainWindow::on_actionExit_triggered()
 {
     this->close();
 }
-

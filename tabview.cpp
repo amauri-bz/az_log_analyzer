@@ -23,7 +23,6 @@ void TabView::newTab()
 {
     ui->tabWidget->addTab(new plainTextView(), QString("Tab %0").arg(ui->tabWidget->count()+1));
     ui->tabWidget->setCurrentIndex(ui->tabWidget->count()-1);
-    qInfo() << "new tab OK\n";
 }
 
 void TabView::openFile(QString file_path)
@@ -35,7 +34,6 @@ void TabView::openFile(QString file_path)
         ui->tabWidget->setCurrentIndex(ui->tabWidget->count()-1);
 
         emit s_update_tree(text->match_lines());
-        qInfo() << "open tab and file OK\n";
     }
     else {
         qInfo() << "[ERROR] open tab and file\n";
