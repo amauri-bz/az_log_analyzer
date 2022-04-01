@@ -35,6 +35,7 @@ void plainTextView::enableToolBtn(bool val) {
 void plainTextView::execMatch() {
     QTextCursor cursor = plainText.textCursor();
     QTextBlockFormat fmt;
+    bool apply = false;
 
     projectMgr::Instance()->ReadProjFile();
     match_lines_.clear();
@@ -43,15 +44,14 @@ void plainTextView::execMatch() {
     while(!cursor.atEnd())
     {
         cursor.select(QTextCursor::LineUnderCursor);
-        const QTextBlock block = cursor.block();
-        if (block.isValid()) {
-            bool apply = false;
+        if (cursor.block().isValid()) {
+            apply = false;
             for(QString key : projectMgr::Instance()->proj_matchs_.keys())
             {
-                if(block.text().contains(key)) {
+                if(cursor.block().text().contains(key)) {
                     fmt.setBackground(QColor(projectMgr::Instance()->proj_matchs_.value(key)));
                     cursor.setBlockFormat(fmt);
-                    match_lines_[key].append(block.blockNumber()+1);
+                    match_lines_[key].append(cursor.block().blockNumber()+1);
                     apply = true;
                     break;
                 }
@@ -120,7 +120,7 @@ void plainTextView::on_toolButton_clicked()
     }
 }
 
-const QMap<QString, QList<int> >& plainTextView::match_lines() const
+const QMap<QString, QList<int>>& plainTextView::match_lines() const
 {
     return match_lines_;
 }
@@ -131,10 +131,9 @@ void plainTextView::goToLine(int line)
     plainText.setTextCursor(cursor);
 }
 
-void plainTextView::findText(QString text, bool regex, bool whole_word, bool backward, bool case_sensitive)
+bool plainTextView::findText(QString text, bool regex, bool whole_word, bool backward, bool case_sensitive)
 {
     QTextDocument::FindFlags flag{0};
-    bool result = false;
 
     if (backward)
         flag = flag | QTextDocument::FindBackward;
@@ -144,9 +143,16 @@ void plainTextView::findText(QString text, bool regex, bool whole_word, bool bac
         flag = flag | QTextDocument::FindWholeWords;
 
     if(regex) {
-        result = plainText.find(QRegularExpression(text), flag);
+        return plainText.find(QRegularExpression(text), flag);
     }
-    else {
-        result = plainText.find(text, flag);
-    }
+
+    return plainText.find(text, flag);
+}
+
+void plainTextView::zoomIn() {
+    plainText.zoomIn();
+}
+
+void plainTextView::zoomOut() {
+    plainText.zoomOut();
 }

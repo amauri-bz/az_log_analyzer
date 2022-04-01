@@ -52,9 +52,17 @@
     <addaction name="actionAbout"/>
     <addaction name="actionAbout_QT"/>
    </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionZoom_In"/>
+    <addaction name="actionZoom_Out"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuProject"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuTools"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -74,6 +82,8 @@
    <addaction name="actionNew_Project"/>
    <addaction name="actionOpen_Project"/>
    <addaction name="actionSave_Project"/>
+   <addaction name="actionZoom_In"/>
+   <addaction name="actionZoom_Out"/>
   </widget>
   <action name="actionNewFile">
    <property name="icon">
@@ -185,6 +195,30 @@
   <action name="actionAbout_QT">
    <property name="text">
     <string>About QT</string>
+   </property>
+  </action>
+  <action name="actionZoom_In">
+   <property name="icon">
+    <iconset resource="img/img.qrc">
+     <normaloff>:/img/zoom_in.png</normaloff>:/img/zoom_in.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom In</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+=</string>
+   </property>
+  </action>
+  <action name="actionZoom_Out">
+   <property name="icon">
+    <iconset resource="img/img.qrc">
+     <normaloff>:/img/zoom_out.png</normaloff>:/img/zoom_out.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom Out</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+_</string>
    </property>
   </action>
  </widget>

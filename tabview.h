@@ -25,12 +25,15 @@ public slots:
     void reloadTabs();
     void goToLine(int line);
     void findText(QString text, bool regex, bool whole_word, bool backward, bool case_sensitive);
+    void zoomIn();
+    void zoomOut();
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
     void on_tabWidget_currentChanged(int index);
 
 signals:
     void s_update_tree(const QMap<QString, QList<int>>&);
+    void s_set_status(QString status, int timeout);
 
 private:
     Ui::TabView *ui;

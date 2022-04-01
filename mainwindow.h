@@ -34,6 +34,8 @@ signals:
     void s_open_file(QString file_path);
     void s_save_file();
     void s_save_file_as();
+    void s_zoom_in();
+    void s_zoom_out();
 
 private slots:
     void on_actionNewFile_triggered();
@@ -47,6 +49,10 @@ private slots:
     void on_actionAbout_QT_triggered();
     void on_actionExit_triggered();
     void on_actionSeteStatus(QString status, int timeout);
+
+    void on_actionZoom_In_triggered();
+
+    void on_actionZoom_Out_triggered();
 
 private:
     Ui::MainWindow *ui;

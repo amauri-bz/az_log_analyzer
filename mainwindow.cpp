@@ -28,12 +28,15 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(this, &MainWindow::s_open_file, &tab_view, &TabView::openFile);
     QObject::connect(this, &MainWindow::s_save_file, &tab_view, &TabView::saveFile);
     QObject::connect(this, &MainWindow::s_save_file_as, &tab_view, &TabView::saveFileAs);
+    QObject::connect(this, &MainWindow::s_zoom_in, &tab_view, &TabView::zoomIn);
+    QObject::connect(this, &MainWindow::s_zoom_out, &tab_view, &TabView::zoomOut);
     QObject::connect(&tab_view, &TabView::s_update_tree, &index_tree, &IndexTree::createIndex);
     QObject::connect(&index_tree, &IndexTree::s_go_to_line, &tab_view, &TabView::goToLine);
     QObject::connect(&find_view, &FindView::s_find_text, &tab_view, &TabView::findText);
 
     //StatusBar connection
     QObject::connect(&project_view, &ProjectView::s_set_status, this, &MainWindow::on_actionSeteStatus);
+    QObject::connect(&tab_view, &TabView::s_set_status, this, &MainWindow::on_actionSeteStatus);
     this->setAcceptDrops(true);
 }
 
@@ -203,4 +206,14 @@ void MainWindow::on_actionAbout_QT_triggered()
 void MainWindow::on_actionExit_triggered()
 {
     this->close();
+}
+
+void MainWindow::on_actionZoom_In_triggered()
+{
+    emit s_zoom_in();
+}
+
+void MainWindow::on_actionZoom_Out_triggered()
+{
+    emit s_zoom_out();
 }

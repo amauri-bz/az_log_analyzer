@@ -27,5 +27,7 @@
         <file>file_proj.png</file>
         <file>open_proj.png</file>
         <file>save_poj.png</file>
+        <file>zoom_in.png</file>
+        <file>zoom_out.png</file>
     </qresource>
 </RCC>

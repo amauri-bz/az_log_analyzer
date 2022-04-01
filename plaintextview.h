@@ -24,7 +24,9 @@ public:
     void enableToolBtn(bool val);
     const QMap<QString, QList<int> > &match_lines() const;
     void goToLine(int line);
-    void findText(QString text, bool regex, bool whole_word, bool backward, bool case_sensitive);
+    bool findText(QString text, bool regex, bool whole_word, bool backward, bool case_sensitive);
+    void zoomIn();
+    void zoomOut();
 
 private slots:
     void on_toolButton_clicked();

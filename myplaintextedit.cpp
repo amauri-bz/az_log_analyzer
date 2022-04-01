@@ -12,9 +12,14 @@ MyPlainTextEdit::MyPlainTextEdit(QWidget *parent) : QPlainTextEdit(parent)
     connect(this, &MyPlainTextEdit::updateRequest, this, &MyPlainTextEdit::updateLineNumberArea);
     connect(this, &MyPlainTextEdit::cursorPositionChanged, this, &MyPlainTextEdit::highlightCurrentLine);
 
-    updateLineNumberAreaWidth(0);
-    highlightCurrentLine();
-    setLineWrapMode(QPlainTextEdit::NoWrap);
+    this->updateLineNumberAreaWidth(0);
+    this->highlightCurrentLine();
+    this->setLineWrapMode(QPlainTextEdit::NoWrap);
+
+    QFont font;
+    font.setFamily("Courier New");
+    font.setPointSize(10);
+    this->setFont(font);
 }
 
 int MyPlainTextEdit::lineNumberAreaWidth()

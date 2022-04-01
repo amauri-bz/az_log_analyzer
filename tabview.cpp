@@ -23,6 +23,7 @@ void TabView::newTab()
 {
     ui->tabWidget->addTab(new plainTextView(), QString("Tab %0").arg(ui->tabWidget->count()+1));
     ui->tabWidget->setCurrentIndex(ui->tabWidget->count()-1);
+    emit s_set_status("Success operation", 2000);
 }
 
 void TabView::openFile(QString file_path)
@@ -34,10 +35,10 @@ void TabView::openFile(QString file_path)
         ui->tabWidget->setCurrentIndex(ui->tabWidget->count()-1);
 
         emit s_update_tree(text->match_lines());
+        emit s_set_status("Success operation", 2000);
     }
-    else {
-        qInfo() << "[ERROR] open tab and file\n";
-    }
+    else
+        emit s_set_status("Not opened", 2000);
 }
 
 void TabView::saveFile()
@@ -46,7 +47,10 @@ void TabView::saveFile()
         QFileInfo fi(text->saveFile());
         ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), QString(fi.fileName()));
         emit s_update_tree(text->match_lines());
+        emit s_set_status("Success operation", 2000);
     }
+    else
+        emit s_set_status("Not saved", 2000);
 }
 
 void TabView::saveFileAs()
@@ -55,12 +59,20 @@ void TabView::saveFileAs()
         QFileInfo fi(text->saveFileAs());
         ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), QString(fi.fileName()));
         emit s_update_tree(text->match_lines());
+        emit s_set_status("Success operation", 2000);
     }
+    else
+        emit s_set_status("Not saved", 2000);
 }
 
 void TabView::on_tabWidget_tabCloseRequested(int index)
 {
     ui->tabWidget->removeTab(index);
+
+    if(!ui->tabWidget->count()) {
+        QMap<QString, QList<int>> empty;
+        emit s_update_tree(empty);
+    }
 }
 
 void TabView::reloadTabs()
@@ -69,9 +81,8 @@ void TabView::reloadTabs()
         if(plainTextView *text = qobject_cast<plainTextView*>(ui->tabWidget->widget(i))) {
             text->execMatch();
 
-            if(ui->tabWidget->widget(i)->isVisible()) {
+            if(ui->tabWidget->widget(i)->isVisible())
                 emit s_update_tree(text->match_lines());
-            }
         }
     }
 }
@@ -80,20 +91,39 @@ void TabView::goToLine(int line)
 {
     if(plainTextView *text = qobject_cast<plainTextView*>(ui->tabWidget->currentWidget())) {
         text->goToLine(line);
+        emit s_set_status("Success operation", 2000);
     }
+    else
+        emit s_set_status("Line not found", 2000);
 }
 
 void TabView::findText(QString text, bool regex, bool whole_word, bool backward, bool case_sensitive)
 {
     if(plainTextView *text_edit = qobject_cast<plainTextView*>(ui->tabWidget->currentWidget())) {
-        text_edit->findText(text, regex, whole_word, backward, case_sensitive);
+        if(text_edit->findText(text, regex, whole_word, backward, case_sensitive)) {
+            emit s_set_status("Success operation", 2000);
+        }
+        else {
+            emit s_set_status("Not found", 2000);
+        }
     }
 }
-
 
 void TabView::on_tabWidget_currentChanged(int index)
 {
     if(plainTextView *text = qobject_cast<plainTextView*>(ui->tabWidget->currentWidget())) {
         emit s_update_tree(text->match_lines());
+    }
+}
+
+void TabView::zoomIn() {
+    if(plainTextView *text = qobject_cast<plainTextView*>(ui->tabWidget->currentWidget())) {
+        text->zoomIn();
+    }
+}
+
+void TabView::zoomOut() {
+    if(plainTextView *text = qobject_cast<plainTextView*>(ui->tabWidget->currentWidget())) {
+        text->zoomOut();
     }
 }
