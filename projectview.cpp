@@ -24,7 +24,7 @@ ProjectView::~ProjectView()
 void ProjectView::displayFileProj(QString proj_dir, QString proj_name) {
     QString file(proj_dir + "/" + proj_name + ".json");
     if(plainTextView *text = qobject_cast<plainTextView*>(this->widget())) {
-        text->setFile(file);
+        text->openFile(file);
     }
 }
 

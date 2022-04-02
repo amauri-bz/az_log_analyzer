@@ -50,12 +50,12 @@ void plainTextView::fileFormatter() {
     }
 }
 
-void plainTextView::fileParser(QString &file_path_) {
+bool plainTextView::fileParser(QString &file_path_) {
     QFile file(file_path_);
     projectMgr::Instance()->ReadProjFile();
 
     if(!file.exists()) {
-        return;
+        return false;
     }
 
     if(file.open(QFile::ReadOnly | QFile::Text)) {
@@ -85,6 +85,7 @@ void plainTextView::fileParser(QString &file_path_) {
             counter++;
         }
     }
+    return true;
 }
 
 void plainTextView::enableToolBtn(bool val) {
@@ -95,11 +96,11 @@ void plainTextView::execMatch() {
     match_lines_.clear();
     match_color_.clear();
 
-    fileParser(file_path);
-    fileFormatter();
+    if(fileParser(file_path))
+        fileFormatter();
 }
 
-bool plainTextView::setFile(QString file_path_) {
+bool plainTextView::openFile(QString file_path_) {
     QFile file(file_path_);
     if(file.exists()) {
         if(file.open(QFile::ReadOnly | QFile::Text)) {
@@ -165,22 +166,24 @@ void plainTextView::goToLine(int line)
     plainText.setTextCursor(cursor);
 }
 
-bool plainTextView::findText(QString text, bool regex, bool whole_word, bool backward, bool case_sensitive)
+bool plainTextView::findText(QString text, bool regex, bool whole_word, bool case_sensitive)
 {
     QTextDocument::FindFlags flag{0};
 
-    if (backward)
-        flag = flag | QTextDocument::FindBackward;
     if (case_sensitive)
         flag = flag | QTextDocument::FindCaseSensitively;
     if (whole_word)
         flag = flag | QTextDocument::FindWholeWords;
 
-    if(regex) {
-        return plainText.find(QRegularExpression(text), flag);
+    if(regex && !plainText.find(QRegularExpression(text), flag)) {
+         flag = flag | QTextDocument::FindBackward;
+         return plainText.find(QRegularExpression(text), flag);
     }
-
-    return plainText.find(text, flag);
+    else if(!regex && !plainText.find(text, flag)) {
+        flag = flag | QTextDocument::FindBackward;
+        return plainText.find(text, flag);
+    }
+    return true;
 }
 
 void plainTextView::zoomIn() {

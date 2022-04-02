@@ -29,10 +29,21 @@ void TabView::newTab()
 void TabView::openFile(QString file_path)
 {
     auto text = new plainTextView();
-    if(text && text->setFile(file_path)) {
-        QFileInfo fi(file_path);
+    QFileInfo fi(file_path);
+
+    for(int i = 0; i  < ui->tabWidget->count(); i++) {
+        if(ui->tabWidget->tabText(i) == fi.fileName()) {
+            ui->tabWidget->setCurrentIndex(i);
+            emit s_set_status("Success operation", 2000);
+            return;
+        }
+    }
+
+    if(text && text->openFile(file_path)) {
         ui->tabWidget->addTab(text, QString(fi.fileName()).arg(ui->tabWidget->count()+1));
         ui->tabWidget->setCurrentIndex(ui->tabWidget->count()-1);
+        ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), QString(fi.fileName()));
+        ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), fi.filePath());
 
         emit s_update_tree(text->match_lines());
         emit s_set_status("Success operation", 2000);
@@ -46,6 +57,8 @@ void TabView::saveFile()
     if(plainTextView *text = qobject_cast<plainTextView*>(ui->tabWidget->currentWidget())) {
         QFileInfo fi(text->saveFile());
         ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), QString(fi.fileName()));
+        ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), fi.filePath());
+
         emit s_update_tree(text->match_lines());
         emit s_set_status("Success operation", 2000);
     }
@@ -58,6 +71,8 @@ void TabView::saveFileAs()
     if(plainTextView *text = qobject_cast<plainTextView*>(ui->tabWidget->currentWidget())) {
         QFileInfo fi(text->saveFileAs());
         ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), QString(fi.fileName()));
+        ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), fi.filePath());
+
         emit s_update_tree(text->match_lines());
         emit s_set_status("Success operation", 2000);
     }
@@ -97,10 +112,10 @@ void TabView::goToLine(int line)
         emit s_set_status("Line not found", 2000);
 }
 
-void TabView::findText(QString text, bool regex, bool whole_word, bool backward, bool case_sensitive)
+void TabView::findText(QString text, bool regex, bool whole_word, bool case_sensitive)
 {
     if(plainTextView *text_edit = qobject_cast<plainTextView*>(ui->tabWidget->currentWidget())) {
-        if(text_edit->findText(text, regex, whole_word, backward, case_sensitive)) {
+        if(text_edit->findText(text, regex, whole_word, case_sensitive)) {
             emit s_set_status("Success operation", 2000);
         }
         else {

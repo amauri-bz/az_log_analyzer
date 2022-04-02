@@ -24,7 +24,7 @@ public slots:
     void saveFileAs();
     void reloadTabs();
     void goToLine(int line);
-    void findText(QString text, bool regex, bool whole_word, bool backward, bool case_sensitive);
+    void findText(QString text, bool regex, bool whole_word, bool case_sensitive);
     void zoomIn();
     void zoomOut();
 
