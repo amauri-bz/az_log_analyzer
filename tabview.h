@@ -27,6 +27,7 @@ public slots:
     void findText(QString text, bool regex, bool whole_word, bool backward, bool case_sensitive);
     void zoomIn();
     void zoomOut();
+
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
     void on_tabWidget_currentChanged(int index);

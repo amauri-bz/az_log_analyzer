@@ -30,8 +30,13 @@ public:
 
 private slots:
     void on_toolButton_clicked();
+
 private:
+    void fileParser(QString &file_path_);
+    void fileFormatter();
+
     QString file_path;
+    QMap<int, QColor> match_color_;
     QMap<QString, QList<int>> match_lines_;
     Ui::plainTextView *ui;
     MyPlainTextEdit plainText;

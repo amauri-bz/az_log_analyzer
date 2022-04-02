@@ -28,41 +28,75 @@ plainTextView::~plainTextView()
     delete ui;
 }
 
+void plainTextView::fileFormatter() {
+    QTextCursor cursor = plainText.textCursor();
+    QTextBlockFormat fmt;
+
+    cursor.select(QTextCursor::Document);
+    fmt.setBackground(QColor(QColorConstants::White));
+    cursor.setBlockFormat(fmt);
+
+    cursor.movePosition(QTextCursor::Start);
+    int i = plainText.document()->blockCount();
+    while(i >= 0)
+    {
+        if(cursor.block().isValid() && match_color_.contains(cursor.block().blockNumber())) {
+            cursor.select(QTextCursor::LineUnderCursor);
+            fmt.setBackground(match_color_.value(cursor.block().blockNumber()));
+            cursor.setBlockFormat(fmt);
+        }
+        cursor.movePosition(QTextCursor::Down);
+        i--;
+    }
+}
+
+void plainTextView::fileParser(QString &file_path_) {
+    QFile file(file_path_);
+    projectMgr::Instance()->ReadProjFile();
+
+    if(!file.exists()) {
+        return;
+    }
+
+    if(file.open(QFile::ReadOnly | QFile::Text)) {
+        QTextStream file_stream(&file);
+
+        file_stream.setAutoDetectUnicode(true);
+        QString line = QString();
+        int counter = 0;
+
+        while(!file_stream.atEnd())
+        {
+            line = QString(file_stream.readLine());
+            if (!line.isEmpty())
+            {
+                for(QString key : projectMgr::Instance()->proj_matchs_.keys())
+                {
+                    if(line.contains(key)) {
+                        match_lines_[key].append(counter+1);
+                        match_color_[counter] =
+                                QColor(
+                                    projectMgr::Instance()->proj_matchs_.value(key)
+                                );
+                        break;
+                    }
+                }
+            }
+            counter++;
+        }
+    }
+}
+
 void plainTextView::enableToolBtn(bool val) {
     ui->toolButton->setVisible(val);
 }
 
 void plainTextView::execMatch() {
-    QTextCursor cursor = plainText.textCursor();
-    QTextBlockFormat fmt;
-    bool apply = false;
-
-    projectMgr::Instance()->ReadProjFile();
     match_lines_.clear();
+    match_color_.clear();
 
-    cursor.setPosition(0);
-    while(!cursor.atEnd())
-    {
-        cursor.select(QTextCursor::LineUnderCursor);
-        if (cursor.block().isValid()) {
-            apply = false;
-            for(QString key : projectMgr::Instance()->proj_matchs_.keys())
-            {
-                if(cursor.block().text().contains(key)) {
-                    fmt.setBackground(QColor(projectMgr::Instance()->proj_matchs_.value(key)));
-                    cursor.setBlockFormat(fmt);
-                    match_lines_[key].append(cursor.block().blockNumber()+1);
-                    apply = true;
-                    break;
-                }
-            }
-            if(apply == false) {
-                fmt.setBackground(QColor(QColorConstants::White));
-                cursor.setBlockFormat(fmt);
-            }
-        }
-        cursor.movePosition(QTextCursor::Down);
-    }
+    fileParser(file_path);
+    fileFormatter();
 }
 
 bool plainTextView::setFile(QString file_path_) {
