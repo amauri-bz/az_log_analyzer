@@ -27,7 +27,9 @@ public slots:
     void findText(QString text, bool regex, bool whole_word, bool case_sensitive);
     void zoomIn();
     void zoomOut();
-
+    void addBookmark();
+    void cleanBookmark();
+    void delBookmark();
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
     void on_tabWidget_currentChanged(int index);

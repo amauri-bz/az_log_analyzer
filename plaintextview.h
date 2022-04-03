@@ -27,7 +27,9 @@ public:
     bool findText(QString text, bool regex, bool whole_word, bool case_sensitive);
     void zoomIn();
     void zoomOut();
-
+    void addBookmark();
+    void cleanBookmark();
+    void delBookmark();
 private slots:
     void on_toolButton_clicked();
 

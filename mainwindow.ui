@@ -58,11 +58,15 @@
     </property>
     <addaction name="actionZoom_In"/>
     <addaction name="actionZoom_Out"/>
+    <addaction name="separator"/>
+    <addaction name="actionAdd_Bookmark"/>
+    <addaction name="actionDelete_Bookmark"/>
+    <addaction name="actionClean_All_Bookmarks"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuProject"/>
-   <addaction name="menuHelp"/>
    <addaction name="menuTools"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -219,6 +223,24 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+_</string>
+   </property>
+  </action>
+  <action name="actionAdd_Bookmark">
+   <property name="text">
+    <string>Add Bookmark</string>
+   </property>
+  </action>
+  <action name="actionDelete_Bookmark">
+   <property name="text">
+    <string>Delete Bookmark</string>
+   </property>
+  </action>
+  <action name="actionClean_All_Bookmarks">
+   <property name="text">
+    <string>Clean All Bookmarks</string>
+   </property>
+   <property name="toolTip">
+    <string>Clean All Bookmarks</string>
    </property>
   </action>
  </widget>

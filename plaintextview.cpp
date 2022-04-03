@@ -93,11 +93,20 @@ void plainTextView::enableToolBtn(bool val) {
 }
 
 void plainTextView::execMatch() {
+    QList<int> bookMark;
+    if(match_lines_.contains("BookMarks"))
+        bookMark = match_lines_["BookMarks"];
+
     match_lines_.clear();
     match_color_.clear();
 
-    if(fileParser(file_path))
+    if(fileParser(file_path)) {
         fileFormatter();
+        if(bookMark.count() > 0) {
+            match_lines_["BookMarks"] = bookMark;
+            projectMgr::Instance()->proj_matchs_["BookMarks"] = "#fff";
+        }
+    }
 }
 
 bool plainTextView::openFile(QString file_path_) {
@@ -192,4 +201,24 @@ void plainTextView::zoomIn() {
 
 void plainTextView::zoomOut() {
     plainText.zoomOut();
+}
+
+void plainTextView::addBookmark() {
+    QTextCursor cursor = plainText.textCursor();
+    match_lines_["BookMarks"].append(cursor.block().blockNumber()+1);
+    projectMgr::Instance()->proj_matchs_["BookMarks"] = "#fff";
+}
+
+void plainTextView::delBookmark() {
+    QTextCursor cursor = plainText.textCursor();
+    match_lines_["BookMarks"].removeIf(
+                [=](int i){ return i == (cursor.block().blockNumber()+1);}
+    );
+    if(!projectMgr::Instance()->proj_matchs_["BookMarks"].count())
+        cleanBookmark();
+}
+
+void plainTextView::cleanBookmark() {
+    match_lines_.remove("BookMarks");
+    projectMgr::Instance()->proj_matchs_.remove("BookMarks");
 }

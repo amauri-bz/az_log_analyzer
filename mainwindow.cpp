@@ -38,6 +38,11 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(&project_view, &ProjectView::s_set_status, this, &MainWindow::on_actionSeteStatus);
     QObject::connect(&tab_view, &TabView::s_set_status, this, &MainWindow::on_actionSeteStatus);
     this->setAcceptDrops(true);
+
+    //Bookmark
+    QObject::connect(this, &MainWindow::s_add_bookmark, &tab_view, &TabView::addBookmark);
+    QObject::connect(this, &MainWindow::s_del_bookmark, &tab_view, &TabView::delBookmark);
+    QObject::connect(this, &MainWindow::s_clean_bookmark, &tab_view, &TabView::cleanBookmark);
 }
 
 MainWindow::~MainWindow()
@@ -217,3 +222,19 @@ void MainWindow::on_actionZoom_Out_triggered()
 {
     emit s_zoom_out();
 }
+
+void MainWindow::on_actionAdd_Bookmark_triggered()
+{
+    emit s_add_bookmark();
+}
+
+void MainWindow::on_actionDelete_Bookmark_triggered()
+{
+    emit s_del_bookmark();
+}
+
+void MainWindow::on_actionClean_All_Bookmarks_triggered()
+{
+    emit s_clean_bookmark();
+}
+

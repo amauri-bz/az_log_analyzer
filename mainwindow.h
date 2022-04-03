@@ -36,6 +36,9 @@ signals:
     void s_save_file_as();
     void s_zoom_in();
     void s_zoom_out();
+    void s_add_bookmark();
+    void s_del_bookmark();
+    void s_clean_bookmark();
 
 private slots:
     void on_actionNewFile_triggered();
@@ -53,6 +56,12 @@ private slots:
     void on_actionZoom_In_triggered();
 
     void on_actionZoom_Out_triggered();
+
+    void on_actionAdd_Bookmark_triggered();
+
+    void on_actionDelete_Bookmark_triggered();
+
+    void on_actionClean_All_Bookmarks_triggered();
 
 private:
     Ui::MainWindow *ui;

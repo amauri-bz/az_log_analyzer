@@ -142,3 +142,27 @@ void TabView::zoomOut() {
         text->zoomOut();
     }
 }
+
+void TabView::addBookmark()
+{
+    if(plainTextView *text = qobject_cast<plainTextView*>(ui->tabWidget->currentWidget())) {
+        text->addBookmark();
+        emit s_update_tree(text->match_lines());
+    }
+}
+
+void TabView::delBookmark()
+{
+    if(plainTextView *text = qobject_cast<plainTextView*>(ui->tabWidget->currentWidget())) {
+        text->delBookmark();
+        emit s_update_tree(text->match_lines());
+    }
+}
+
+void TabView::cleanBookmark()
+{
+    if(plainTextView *text = qobject_cast<plainTextView*>(ui->tabWidget->currentWidget())) {
+        text->cleanBookmark();
+        emit s_update_tree(text->match_lines());
+    }
+}
