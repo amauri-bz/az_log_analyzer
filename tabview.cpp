@@ -1,7 +1,9 @@
 #include "tabview.h"
 #include "ui_tabview.h"
 #include "plaintextview.h"
+#include <QElapsedTimer>
 #include <QFileInfo>
+#include <QSplashScreen>
 #include <QtDebug>
 
 TabView::TabView(QWidget *parent) :
@@ -32,12 +34,22 @@ void TabView::openFile(QString file_path)
     QFileInfo fi(file_path);
 
     for(int i = 0; i  < ui->tabWidget->count(); i++) {
-        if(ui->tabWidget->tabText(i) == fi.fileName()) {
-            ui->tabWidget->setCurrentIndex(i);
-            emit s_set_status("Success operation", 2000);
-            return;
+        if(plainTextView *text = qobject_cast<plainTextView*>(ui->tabWidget->widget(i))) {
+            if(text->getFile_path() == file_path) {
+                ui->tabWidget->setCurrentIndex(i);
+                emit s_set_status("Success operation", 2000);
+                return;
+            }
         }
     }
+
+    QSplashScreen splash(QPixmap(":/img/close.png").scaled(QSize(200,200), Qt::KeepAspectRatio),
+                            Qt::WindowStaysOnTopHint);
+    splash.show();
+    splash.showMessage("Loading a large file...", Qt::AlignCenter, Qt::black);
+
+    QElapsedTimer timer;
+    timer.start();
 
     if(text && text->openFile(file_path)) {
         ui->tabWidget->addTab(text, QString(fi.fileName()).arg(ui->tabWidget->count()+1));
@@ -46,7 +58,10 @@ void TabView::openFile(QString file_path)
         ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), fi.filePath());
 
         emit s_update_tree(text->match_lines());
-        emit s_set_status("Success operation", 2000);
+
+        QTime timeResult(0, 0);
+        timeResult=timeResult.addMSecs(timer.elapsed());
+        emit s_set_status("Success operation, delta-time:" + timeResult.toString("mm:ss.zzz") , 2000);
     }
     else
         emit s_set_status("Not opened", 2000);
@@ -112,10 +127,10 @@ void TabView::goToLine(int line)
         emit s_set_status("Line not found", 2000);
 }
 
-void TabView::findText(QString text, bool regex, bool whole_word, bool case_sensitive)
+void TabView::findText(QString text, bool regex, bool whole_word, bool case_sensitive, bool up, bool down, bool arround)
 {
     if(plainTextView *text_edit = qobject_cast<plainTextView*>(ui->tabWidget->currentWidget())) {
-        if(text_edit->findText(text, regex, whole_word, case_sensitive)) {
+        if(text_edit->findText(text, regex, whole_word, case_sensitive, up, down, arround)) {
             emit s_set_status("Success operation", 2000);
         }
         else {
@@ -165,4 +180,9 @@ void TabView::cleanBookmark()
         text->cleanBookmark();
         emit s_update_tree(text->match_lines());
     }
+}
+
+void TabView::on_tabWidget_tabBarDoubleClicked(int index)
+{
+    newTab();
 }

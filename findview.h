@@ -19,7 +19,7 @@ private slots:
     void on_okButton_clicked();
 
 signals:
-    void s_find_text(QString text, bool regex, bool whole_word, bool case_sensitive);
+    void s_find_text(QString text, bool regex, bool whole_word, bool case_sensitive, bool up, bool down, bool arround);
 
 private:
     Ui::FindView *ui;

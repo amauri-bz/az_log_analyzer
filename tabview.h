@@ -1,6 +1,7 @@
 #ifndef TABVIEW_H
 #define TABVIEW_H
 
+#include <QAbstractButton>
 #include <QFile>
 #include <QMap>
 #include <QWidget>
@@ -24,7 +25,7 @@ public slots:
     void saveFileAs();
     void reloadTabs();
     void goToLine(int line);
-    void findText(QString text, bool regex, bool whole_word, bool case_sensitive);
+    void findText(QString text, bool regex, bool whole_word, bool case_sensitive, bool up, bool down, bool arround);
     void zoomIn();
     void zoomOut();
     void addBookmark();
@@ -33,6 +34,7 @@ public slots:
 private slots:
     void on_tabWidget_tabCloseRequested(int index);
     void on_tabWidget_currentChanged(int index);
+    void on_tabWidget_tabBarDoubleClicked(int index);
 
 signals:
     void s_update_tree(const QMap<QString, QList<int>>&);

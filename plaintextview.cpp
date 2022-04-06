@@ -50,6 +50,11 @@ void plainTextView::fileFormatter() {
     }
 }
 
+const QString &plainTextView::getFile_path() const
+{
+    return file_path;
+}
+
 bool plainTextView::fileParser(QString &file_path_) {
     QFile file(file_path_);
     projectMgr::Instance()->ReadProjFile();
@@ -175,7 +180,7 @@ void plainTextView::goToLine(int line)
     plainText.setTextCursor(cursor);
 }
 
-bool plainTextView::findText(QString text, bool regex, bool whole_word, bool case_sensitive)
+bool plainTextView::findText(QString text, bool regex, bool whole_word, bool case_sensitive, bool up, bool down,bool arround)
 {
     QTextDocument::FindFlags flag{0};
 
@@ -184,13 +189,33 @@ bool plainTextView::findText(QString text, bool regex, bool whole_word, bool cas
     if (whole_word)
         flag = flag | QTextDocument::FindWholeWords;
 
-    if(regex && !plainText.find(QRegularExpression(text), flag)) {
-         flag = flag | QTextDocument::FindBackward;
-         return plainText.find(QRegularExpression(text), flag);
+    if(regex) {
+        if(up) {
+            flag = flag | QTextDocument::FindBackward;
+            return plainText.find(QRegularExpression(text), flag);
+        }
+        else if(down) {
+            return plainText.find(QRegularExpression(text), flag);
+        }
+
+        if(!plainText.find(QRegularExpression(text), flag)) {
+             flag = flag | QTextDocument::FindBackward;
+             return plainText.find(QRegularExpression(text), flag);
+        }
     }
-    else if(!regex && !plainText.find(text, flag)) {
-        flag = flag | QTextDocument::FindBackward;
-        return plainText.find(text, flag);
+    else {
+        if(up) {
+            flag = flag | QTextDocument::FindBackward;
+            return plainText.find(text, flag);
+        }
+        else if(down) {
+            return plainText.find(text, flag);
+        }
+
+        if(!plainText.find(text, flag)) {
+            flag = flag | QTextDocument::FindBackward;
+            return plainText.find(text, flag);
+        }
     }
     return true;
 }

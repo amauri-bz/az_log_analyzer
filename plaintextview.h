@@ -24,12 +24,14 @@ public:
     void enableToolBtn(bool val);
     const QMap<QString, QList<int> > &match_lines() const;
     void goToLine(int line);
-    bool findText(QString text, bool regex, bool whole_word, bool case_sensitive);
+    bool findText(QString text, bool regex, bool whole_word, bool case_sensitive, bool up, bool down, bool arround);
     void zoomIn();
     void zoomOut();
     void addBookmark();
     void cleanBookmark();
     void delBookmark();
+    const QString &getFile_path() const;
+
 private slots:
     void on_toolButton_clicked();
 

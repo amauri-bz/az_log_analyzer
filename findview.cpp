@@ -18,10 +18,13 @@ void FindView::on_okButton_clicked()
     bool regex = ui->RegexBox->isChecked();
     bool whole_word = ui->WholeWordBox->isChecked();
     bool case_sensitive = ui->CaseSensitiveBox->isChecked();
+    bool up = ui->radioUp->isChecked();
+    bool down = ui->radioDown->isChecked();
+    bool arround = ui->radioArround->isChecked();
     QString text = ui->InputEdit->text();
 
     if(!text.isEmpty()) {
-        emit s_find_text(text, regex, whole_word, case_sensitive);
+        emit s_find_text(text, regex, whole_word, case_sensitive, up, down, arround);
     }
 
 }

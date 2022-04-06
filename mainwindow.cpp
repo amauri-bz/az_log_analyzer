@@ -166,7 +166,11 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionAbout_QT_triggered()
 {
-    QString translatedTextAboutQtCaption;
+    QMessageBox msg;
+    msg.aboutQt(this);
+
+
+    /*QString translatedTextAboutQtCaption;
     translatedTextAboutQtCaption = QMessageBox::tr(
         "<h3>About Qt</h3>"
         "<p>This program uses Qt version %1.</p>"
@@ -205,7 +209,7 @@ void MainWindow::on_actionAbout_QT_triggered()
     msgBox->setWindowTitle(tr("About Qt"));
     msgBox->setText(translatedTextAboutQtCaption);
     msgBox->setInformativeText(translatedTextAboutQtText);
-    msgBox->show();
+    msgBox->show();*/
 }
 
 void MainWindow::on_actionExit_triggered()
