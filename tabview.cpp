@@ -6,6 +6,14 @@
 #include <QSplashScreen>
 #include <QtDebug>
 
+#include <QDragEnterEvent>
+#include <QDragLeaveEvent>
+#include <QDragMoveEvent>
+#include <QDropEvent>
+#include <QMimeData>
+#include <QUrl>
+#include <QList>
+
 TabView::TabView(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TabView)
@@ -185,4 +193,35 @@ void TabView::cleanBookmark()
 void TabView::on_tabWidget_tabBarDoubleClicked(int index)
 {
     newTab();
+}
+
+void TabView::dragEnterEvent(QDragEnterEvent* event)
+{
+    event->acceptProposedAction();
+}
+
+void TabView::dragMoveEvent(QDragMoveEvent* event)
+{
+    event->acceptProposedAction();
+}
+
+void TabView::dragLeaveEvent(QDragLeaveEvent* event)
+{
+    event->accept();
+}
+
+void TabView::dropEvent(QDropEvent* event)
+{
+   const QMimeData* mimeData = event->mimeData();
+
+   if (mimeData->hasUrls())
+   {
+     QList<QUrl> urlList = mimeData->urls();
+
+     for (int i = 0; i < urlList.size() && i < 32; ++i)
+     {
+        openFile(urlList.at(i).toLocalFile());
+     }
+     event->acceptProposedAction();
+   }
 }

@@ -40,6 +40,27 @@ signals:
     void s_update_tree(const QMap<QString, QList<int>>&);
     void s_set_status(QString status, int timeout);
 
+protected:
+    /**
+    * this event is called when the mouse enters the widgets area during a drag/drop operation
+    */
+   void dragEnterEvent(QDragEnterEvent* event);
+
+   /**
+    * this event is called when the mouse moves inside the widgets area during a drag/drop operation
+    */
+   void dragMoveEvent(QDragMoveEvent* event);
+
+   /**
+    * this event is called when the mouse leaves the widgets area during a drag/drop operation
+    */
+   void dragLeaveEvent(QDragLeaveEvent* event);
+
+   /**
+    * this event is called when the drop operation is initiated at the widget
+    */
+   void dropEvent(QDropEvent* event);
+
 private:
     Ui::TabView *ui;
 };

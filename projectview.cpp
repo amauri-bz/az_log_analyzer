@@ -51,6 +51,7 @@ void ProjectView::openProj(QString proj_name, QString proj_path)
         projectMgr::Instance()->ReadProjFile(proj_path, proj_name);
         displayFileProj(proj_path, proj_name);
         emit s_set_proj(proj_path);
+        emit s_reload();
         emit s_set_status("Success operation", 2000);
     }
     else {

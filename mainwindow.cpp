@@ -56,11 +56,6 @@ void MainWindow::on_actionSeteStatus(QString status, int timeout) {
 
 void MainWindow::on_actionNewFile_triggered()
 {
-    if(proj_path.isEmpty()) {
-        statusBar()->showMessage(tr("Project not created/opened"), 2000);
-        return;
-    }
-
     emit s_new_tab();
 }
 
@@ -96,22 +91,12 @@ void MainWindow::setProj_name(const QString &newProj_name)
 
 void MainWindow::on_actionOpenFile_triggered()
 {
-    if(proj_path.isEmpty()) {
-        statusBar()->showMessage(tr("Project not created/opened"), 2000);
-        return;
-    }
-
     QString fileName = QFileDialog::getOpenFileName(this, "Open file", proj_path,  tr("All Files (*);;*.json;;*.txt;;*.log"));
     emit s_open_file(fileName);
 }
 
 void MainWindow::on_actionSaveFile_triggered()
 {
-    if(proj_path.isEmpty()) {
-        statusBar()->showMessage(tr("Project not created/opened"), 2000);
-        return;
-    }
-
     emit s_save_file();
 }
 
@@ -168,48 +153,6 @@ void MainWindow::on_actionAbout_QT_triggered()
 {
     QMessageBox msg;
     msg.aboutQt(this);
-
-
-    /*QString translatedTextAboutQtCaption;
-    translatedTextAboutQtCaption = QMessageBox::tr(
-        "<h3>About Qt</h3>"
-        "<p>This program uses Qt version %1.</p>"
-        ).arg(QLatin1String(QT_VERSION_STR));
-    QString translatedTextAboutQtText;
-    translatedTextAboutQtText = QMessageBox::tr(
-        "<p>Qt is a C++ toolkit for cross-platform application "
-        "development.</p>"
-        "<p>Qt provides single-source portability across all major desktop "
-        "operating systems. It is also available for embedded Linux and other "
-        "embedded and mobile operating systems.</p>"
-        "<p>Qt is available under three different licensing options designed "
-        "to accommodate the needs of our various users.</p>"
-        "<p>Qt licensed under our commercial license agreement is appropriate "
-        "for development of proprietary/commercial software where you do not "
-        "want to share any source code with third parties or otherwise cannot "
-        "comply with the terms of the GNU LGPL version 3 or GNU LGPL version 2.1.</p>"
-        "<p>Qt licensed under the GNU LGPL version 3 is appropriate for the "
-        "development of Qt&nbsp;applications provided you can comply with the terms "
-        "and conditions of the GNU LGPL version 3.</p>"
-        "<p>Qt licensed under the GNU LGPL version 2.1 is appropriate for the "
-        "development of Qt&nbsp;applications provided you can comply with the terms "
-        "and conditions of the GNU LGPL version 2.1.</p>"
-        "<p>Please see <a href=\"http://%2/\">%2</a> "
-        "for an overview of Qt licensing.</p>"
-        "<p>Copyright (C) %1 The Qt Company Ltd and other "
-        "contributors.</p>"
-        "<p>Qt and the Qt logo are trademarks of The Qt Company Ltd.</p>"
-        "<p>Qt is The Qt Company Ltd product developed as an open source "
-        "project. See <a href=\"http://%3/\">%3</a> for more information.</p>"
-        ).arg(QLatin1String("2022"),
-              QLatin1String("qt.io/licensing"),
-              QLatin1String("qt.io"));
-    QMessageBox *msgBox = new QMessageBox();
-    msgBox->setAttribute(Qt::WA_DeleteOnClose);
-    msgBox->setWindowTitle(tr("About Qt"));
-    msgBox->setText(translatedTextAboutQtCaption);
-    msgBox->setInformativeText(translatedTextAboutQtText);
-    msgBox->show();*/
 }
 
 void MainWindow::on_actionExit_triggered()
