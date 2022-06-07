@@ -38,6 +38,7 @@ void ExecCmd::on_ExecBtn_clicked()
 
     QString output(process.readAllStandardOutput());
     ui->OutText->setPlainText(output);
+    qInfo() << "TESTE:" << params << " = " << output;
     process.close();
 }
 
