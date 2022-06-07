@@ -48,6 +48,10 @@ set(PROJECT_SOURCES
         plaintextview.cpp
         plaintextview.ui
 
+        execcmd.h
+        execcmd.cpp
+        execcmd.ui
+
         findview.h
         findview.cpp
         findview.ui

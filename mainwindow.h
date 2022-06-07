@@ -7,6 +7,7 @@
 #include "tabview.h"
 #include "projectview.h"
 #include "findview.h"
+#include "execcmd.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -70,6 +71,8 @@ private:
     TabView tab_view;
     ProjectView project_view;
     FindView find_view;
+    ExecCmd exec_cmd;
+
     QString proj_name;
     QString proj_path;
 };
