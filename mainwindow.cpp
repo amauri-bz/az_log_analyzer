@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->addDockWidget(Qt::LeftDockWidgetArea, &find_view);
 
     this->tabifyDockWidget(&file_tree, &index_tree);
+    this->tabifyDockWidget(&file_tree, &exec_cmd);
     this->tabifyDockWidget(&file_tree, &project_view);
 
     QObject::connect(this, &MainWindow::s_new_tab, &tab_view, &TabView::newTab);
