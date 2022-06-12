@@ -4,6 +4,9 @@
 #include <QPainter>
 #include <QTextBlock>
 
+/*!
+    \brief Object constructor
+*/
 MyPlainTextEdit::MyPlainTextEdit(QWidget *parent) : QPlainTextEdit(parent)
 {
     lineNumberArea = new LineNumberArea(this);
@@ -22,6 +25,9 @@ MyPlainTextEdit::MyPlainTextEdit(QWidget *parent) : QPlainTextEdit(parent)
     this->setFont(font);
 }
 
+/*!
+    \brief Calculate the line number area width
+*/
 int MyPlainTextEdit::lineNumberAreaWidth()
 {
     int digits = 1;
@@ -36,11 +42,17 @@ int MyPlainTextEdit::lineNumberAreaWidth()
     return space;
 }
 
+/*!
+    \brief Update line number area width
+*/
 void MyPlainTextEdit::updateLineNumberAreaWidth(int /* newBlockCount */)
 {
     setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
 }
 
+/*!
+    \brief Update line number area
+*/
 void MyPlainTextEdit::updateLineNumberArea(const QRect &rect, int dy)
 {
     if (dy)
@@ -52,6 +64,9 @@ void MyPlainTextEdit::updateLineNumberArea(const QRect &rect, int dy)
         updateLineNumberAreaWidth(0);
 }
 
+/*!
+    \brief Handle resize event
+*/
 void MyPlainTextEdit::resizeEvent(QResizeEvent *e)
 {
     QPlainTextEdit::resizeEvent(e);
@@ -60,6 +75,9 @@ void MyPlainTextEdit::resizeEvent(QResizeEvent *e)
     lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
 }
 
+/*!
+    \brief Highlight the actial line
+*/
 void MyPlainTextEdit::highlightCurrentLine()
 {
     QList<QTextEdit::ExtraSelection> extraSelections;
@@ -79,6 +97,9 @@ void MyPlainTextEdit::highlightCurrentLine()
     setExtraSelections(extraSelections);
 }
 
+/*!
+    \brief Handle paint area event
+*/
 void MyPlainTextEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
     QPainter painter(lineNumberArea);

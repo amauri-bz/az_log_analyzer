@@ -40,6 +40,7 @@ signals:
     void s_add_bookmark();
     void s_del_bookmark();
     void s_clean_bookmark();
+    void s_refresh_file();
 
 private slots:
     void on_actionNewFile_triggered();
@@ -63,6 +64,8 @@ private slots:
     void on_actionDelete_Bookmark_triggered();
 
     void on_actionClean_All_Bookmarks_triggered();
+
+    void on_actionRefresh_File_triggered();
 
 private:
     Ui::MainWindow *ui;

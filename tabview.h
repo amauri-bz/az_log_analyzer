@@ -21,6 +21,7 @@ public:
 public slots:
     void newTab();
     void openFile(QString file_path);
+    void refreshFile();
     void saveFile();
     void saveFileAs();
     void reloadTabs();

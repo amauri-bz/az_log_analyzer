@@ -1,6 +1,9 @@
 #include "findview.h"
 #include "ui_findview.h"
 
+/*!
+    \brief Object constructor
+*/
 FindView::FindView(QWidget *parent) :
     QDockWidget(parent),
     ui(new Ui::FindView)
@@ -8,11 +11,17 @@ FindView::FindView(QWidget *parent) :
     ui->setupUi(this);
 }
 
+/*!
+    \brief Object destructor
+*/
 FindView::~FindView()
 {
     delete ui;
 }
 
+/*!
+    \brief Handle the find button click and emit a find-signal to the plain-text editor
+*/
 void FindView::on_okButton_clicked()
 {
     bool regex = ui->RegexBox->isChecked();

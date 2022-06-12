@@ -3,6 +3,9 @@
 #include "projectmgr.h"
 #include <QStandardItemModel>
 
+/*!
+    \brief Object constructor
+*/
 IndexTree::IndexTree(QWidget *parent) :
     QDockWidget(parent),
     ui(new Ui::IndexTree)
@@ -11,11 +14,17 @@ IndexTree::IndexTree(QWidget *parent) :
     ui->treeView->setHeaderHidden(true);
 }
 
+/*!
+    \brief Object destructor
+*/
 IndexTree::~IndexTree()
 {
     delete ui;
 }
 
+/*!
+    \brief Handle the index_tree event from tab_view to build the index tree
+*/
 void IndexTree::createIndex(const QMap<QString, QList<int> >& data) {
     QStandardItemModel *model = new QStandardItemModel(this);
     auto rootNode = model->invisibleRootItem();
@@ -43,6 +52,9 @@ void IndexTree::createIndex(const QMap<QString, QList<int> >& data) {
     ui->treeView->setModel(model);
 }
 
+/*!
+    \brief Handle double click event on the index tree and emit the go-to-line event
+*/
 void IndexTree::on_treeView_doubleClicked(const QModelIndex &index)
 {
     if(index.isValid() && index.parent().isValid()) {

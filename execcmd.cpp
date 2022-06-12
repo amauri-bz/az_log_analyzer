@@ -4,6 +4,9 @@
 #include <QFileDialog>
 #include <QProcess>
 
+/*!
+    \brief Constructing the object and initializing the program types
+*/
 ExecCmd::ExecCmd(QWidget *parent) :
     QDockWidget(parent),
     ui(new Ui::ExecCmd)
@@ -13,11 +16,17 @@ ExecCmd::ExecCmd(QWidget *parent) :
     ui->CmdBox->addItem("shell");
 }
 
+/*!
+    \brief Destructing the object
+*/
 ExecCmd::~ExecCmd()
 {
     delete ui;
 }
 
+/*!
+    \brief Handle the exec button click to run an external script/bin
+*/
 void ExecCmd::on_ExecBtn_clicked()
 {
     QString  command;
@@ -38,10 +47,12 @@ void ExecCmd::on_ExecBtn_clicked()
 
     QString output(process.readAllStandardOutput());
     ui->OutText->setPlainText(output);
-    qInfo() << "TESTE:" << params << " = " << output;
     process.close();
 }
 
+/*!
+    \brief Handle the tool button to get a script full path
+*/
 void ExecCmd::on_ScriptTool_clicked()
 {
     QString dir_path = QFileDialog::getOpenFileName(this, tr("Open File"), "/home");

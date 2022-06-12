@@ -34,6 +34,7 @@
     <addaction name="actionSaveFile"/>
     <addaction name="actionSaveFileAs"/>
     <addaction name="actionOpenFile"/>
+    <addaction name="actionRefresh_File"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -82,6 +83,7 @@
    <addaction name="actionNewFile"/>
    <addaction name="actionOpenFile"/>
    <addaction name="actionSaveFile"/>
+   <addaction name="actionRefresh_File"/>
    <addaction name="separator"/>
    <addaction name="actionNew_Project"/>
    <addaction name="actionOpen_Project"/>
@@ -241,6 +243,18 @@
    </property>
    <property name="toolTip">
     <string>Clean All Bookmarks</string>
+   </property>
+  </action>
+  <action name="actionRefresh_File">
+   <property name="icon">
+    <iconset resource="img/img.qrc">
+     <normaloff>:/img/reload_file.png</normaloff>:/img/reload_file.png</iconset>
+   </property>
+   <property name="text">
+    <string>Refresh File</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
    </property>
   </action>
  </widget>

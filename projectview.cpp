@@ -6,6 +6,9 @@
 #include "projectmgr.h"
 #include "plaintextview.h"
 
+/*!
+    \brief Object constructor
+*/
 ProjectView::ProjectView(QWidget *parent) :
     QDockWidget(parent),
     ui(new Ui::ProjectView)
@@ -16,6 +19,9 @@ ProjectView::ProjectView(QWidget *parent) :
     this->setWidget(txt);
 }
 
+/*!
+    \brief Object destructor
+*/
 ProjectView::~ProjectView()
 {
     delete ui;
@@ -28,6 +34,9 @@ void ProjectView::displayFileProj(QString proj_dir, QString proj_name) {
     }
 }
 
+/*!
+    \brief Handle new project signal from main-window
+*/
 void ProjectView::newProj(QString proj_name, QString proj_path)
 {
     QString proj_dir(proj_path + "/" + proj_name);
@@ -45,6 +54,9 @@ void ProjectView::newProj(QString proj_name, QString proj_path)
     }
 }
 
+/*!
+    \brief Handle open project signal from main-window
+*/
 void ProjectView::openProj(QString proj_name, QString proj_path)
 {
     if(QDir(proj_path).exists()) {
@@ -59,6 +71,9 @@ void ProjectView::openProj(QString proj_name, QString proj_path)
     }
 }
 
+/*!
+    \brief Handle save project signal from main-window
+*/
 void ProjectView::saveProj()
 {
     if(plainTextView *text = qobject_cast<plainTextView*>(this->widget())) {

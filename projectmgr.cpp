@@ -6,11 +6,17 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+/*!
+    \brief Object constructor
+*/
 ProjectMgr::ProjectMgr(QObject *parent) :
     QObject(parent)
 {
 }
 
+/*!
+    \brief Parse the project file
+*/
 bool ProjectMgr::ReadFile(QString proj_dir, QString proj_name) {
     QString filePath(proj_dir + "/" + proj_name + ".json");
     QFile loadFile(filePath);
@@ -70,6 +76,9 @@ bool ProjectMgr::ReadFile(QString proj_dir, QString proj_name) {
     return true;
 }
 
+/*!
+    \brief Create a default project file
+*/
 bool ProjectMgr::CreateProjFile(QString proj_dir, QString proj_name) const
 {
     QFile saveFile(proj_dir + "/" +proj_name + ".json");
@@ -101,11 +110,18 @@ bool ProjectMgr::CreateProjFile(QString proj_dir, QString proj_name) const
     return true;
 }
 
+
+/*!
+    \brief Parse an existente project file
+*/
 bool ProjectMgr::ReadProjFile()
 {
     return projectMgr::Instance()->ReadFile(projectMgr::Instance()->proj_dir_, projectMgr::Instance()->proj_name_);
 }
 
+/*!
+    \brief Parse a new project file
+*/
 bool ProjectMgr::ReadProjFile(QString proj_dir, QString proj_name)
 {
     return projectMgr::Instance()->ReadFile(proj_dir, proj_name);

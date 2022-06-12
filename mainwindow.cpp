@@ -5,6 +5,9 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+/*!
+    \brief Object constructor
+*/
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -26,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(&project_view, &ProjectView::s_reload, &tab_view, &TabView::reloadTabs);
     QObject::connect(this, &MainWindow::s_save_proj, &project_view, &ProjectView::saveProj);
     QObject::connect(&file_tree, &FileTree::s_open_file, &tab_view, &TabView::openFile);
+    QObject::connect(this, &MainWindow::s_refresh_file, &tab_view, &TabView::refreshFile);
     QObject::connect(this, &MainWindow::s_open_file, &tab_view, &TabView::openFile);
     QObject::connect(this, &MainWindow::s_save_file, &tab_view, &TabView::saveFile);
     QObject::connect(this, &MainWindow::s_save_file_as, &tab_view, &TabView::saveFileAs);
@@ -46,20 +50,32 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(this, &MainWindow::s_clean_bookmark, &tab_view, &TabView::cleanBookmark);
 }
 
+/*!
+    \brief Object destructor
+*/
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+/*!
+    \brief Handle signals from other modules to display the status
+*/
 void MainWindow::on_actionSeteStatus(QString status, int timeout) {
     statusBar()->showMessage(status, timeout);
 }
 
+/*!
+    \brief Handle new file button click
+*/
 void MainWindow::on_actionNewFile_triggered()
 {
     emit s_new_tab();
 }
 
+/*!
+    \brief Handle new project button click
+*/
 void MainWindow::on_actionNew_Project_triggered()
 {
     auto dialog = NewProjDialog();
@@ -70,37 +86,58 @@ void MainWindow::on_actionNew_Project_triggered()
     emit s_new_proj(getProj_name(), getProj_path());
 }
 
+/*!
+    \brief Get proj path getter
+*/
 const QString &MainWindow::getProj_path() const
 {
     return proj_path;
 }
 
+/*!
+    \brief Get proj path setter
+*/
 void MainWindow::setProj_path(const QString &newProj_path)
 {
     proj_path = newProj_path;
 }
 
+/*!
+    \brief Get proj name getter
+*/
 const QString &MainWindow::getProj_name() const
 {
     return proj_name;
 }
 
+/*!
+    \brief Get proj name setter
+*/
 void MainWindow::setProj_name(const QString &newProj_name)
 {
     proj_name = newProj_name;
 }
 
+/*!
+    \brief Handle open file button click
+*/
 void MainWindow::on_actionOpenFile_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, "Open file", proj_path,  tr("All Files (*);;*.json;;*.txt;;*.log"));
     emit s_open_file(fileName);
 }
 
+/*!
+    \brief Handle save file button click
+*/
 void MainWindow::on_actionSaveFile_triggered()
 {
     emit s_save_file();
 }
 
+/*!
+    \brief Handle open project button click
+*/
 void MainWindow::on_actionOpen_Project_triggered()
 {
     QString dir_path = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
@@ -112,6 +149,9 @@ void MainWindow::on_actionOpen_Project_triggered()
     emit s_open_proj(getProj_name(), getProj_path());
 }
 
+/*!
+    \brief Handle save project button click
+*/
 void MainWindow::on_actionSave_Project_triggered()
 {
     if(proj_path.isEmpty()) {
@@ -122,6 +162,9 @@ void MainWindow::on_actionSave_Project_triggered()
     emit s_save_proj();
 }
 
+/*!
+    \brief Handle save-file-as button click
+*/
 void MainWindow::on_actionSaveFileAs_triggered()
 {
     if(proj_path.isEmpty()) {
@@ -132,6 +175,9 @@ void MainWindow::on_actionSaveFileAs_triggered()
     emit s_save_file_as();
 }
 
+/*!
+    \brief Handle about button click
+*/
 void MainWindow::on_actionAbout_triggered()
 {
     QString translatedTextAboutCaption;
@@ -150,39 +196,69 @@ void MainWindow::on_actionAbout_triggered()
     msgBox->show();
 }
 
+/*!
+    \brief Handle about QT button click
+*/
 void MainWindow::on_actionAbout_QT_triggered()
 {
     QMessageBox msg;
     msg.aboutQt(this);
 }
 
+/*!
+    \brief Handle exit button click
+*/
 void MainWindow::on_actionExit_triggered()
 {
     this->close();
 }
 
+/*!
+    \brief Handle zoon in button click
+*/
 void MainWindow::on_actionZoom_In_triggered()
 {
     emit s_zoom_in();
 }
 
+/*!
+    \brief Handle zoon out button click
+*/
 void MainWindow::on_actionZoom_Out_triggered()
 {
     emit s_zoom_out();
 }
 
+/*!
+    \brief Handle add bookmark button click
+*/
 void MainWindow::on_actionAdd_Bookmark_triggered()
 {
     emit s_add_bookmark();
 }
 
+/*!
+    \brief Handle delete bookmark button click
+*/
 void MainWindow::on_actionDelete_Bookmark_triggered()
 {
     emit s_del_bookmark();
 }
 
+/*!
+    \brief Handle clear all bookmarks button click
+*/
 void MainWindow::on_actionClean_All_Bookmarks_triggered()
 {
     emit s_clean_bookmark();
+}
+
+
+/*!
+    \brief Handle refresh button click
+*/
+void MainWindow::on_actionRefresh_File_triggered()
+{
+    emit s_refresh_file();
 }
 
