@@ -10,6 +10,7 @@ NewProjDialog::NewProjDialog(QWidget *parent) :
     ui(new Ui::NewProjDialog)
 {
     ui->setupUi(this);
+    fillTemplateBox();
 }
 
 /*!
@@ -18,6 +19,26 @@ NewProjDialog::NewProjDialog(QWidget *parent) :
 NewProjDialog::~NewProjDialog()
 {
     delete ui;
+}
+
+/*!
+    \brief Fill tamplate combo box
+*/
+void NewProjDialog::fillTemplateBox()
+{
+    ui->templateBox->addItem("");
+
+    QDir directory(QDir::currentPath()+"/templates");
+
+    if (!directory.exists()) {
+        ui->statusbar->setText("Template folder not exist");
+        return;
+    }
+
+    QStringList files = directory.entryList(QStringList() << "*.json",QDir::Files);
+    foreach(QString filename, files) {
+        ui->templateBox->addItem(filename);
+    }
 }
 
 /*!
@@ -34,6 +55,16 @@ const QString &NewProjDialog::getProj_path() const
 void NewProjDialog::setProj_path(const QString &newProj_path)
 {
     proj_path = newProj_path;
+}
+
+const QString &NewProjDialog::getProj_template() const
+{
+    return proj_template;
+}
+
+void NewProjDialog::setProj_template(const QString &newProj_template)
+{
+    proj_template = newProj_template;
 }
 
 /*!
@@ -80,6 +111,7 @@ void NewProjDialog::on_create_btn_clicked()
 {
     setProj_name(ui->name_txt->text());
     setProj_path(ui->path_txt->text());
+    setProj_template(ui->templateBox->currentText());
 
     if(getProj_name().isEmpty()) {
         ui->statusbar->setText("Invalid project name");

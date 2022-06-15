@@ -12,8 +12,8 @@ ExecCmd::ExecCmd(QWidget *parent) :
     ui(new Ui::ExecCmd)
 {
     ui->setupUi(this);
-    ui->CmdBox->addItem("python");
     ui->CmdBox->addItem("shell");
+    ui->CmdBox->addItem("python");
 }
 
 /*!

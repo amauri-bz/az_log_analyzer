@@ -15,7 +15,7 @@ public:
 
     bool ReadProjFile();
     bool ReadProjFile(QString proj_dir, QString proj_name);
-    bool CreateProjFile(QString proj_dir, QString proj_name) const;
+    bool CreateProjFile(QString proj_dir, QString proj_name, QString proj_template) const;
 
     QString proj_name_;
     QString proj_dir_;

@@ -29,7 +29,7 @@ public:
 
 signals:
     void s_new_tab();
-    void s_new_proj(QString proj_name, QString proj_path);
+    void s_new_proj(QString proj_name, QString proj_path, QString proj_template);
     void s_open_proj(QString proj_name, QString proj_path);
     void s_save_proj();
     void s_open_file(QString file_path);

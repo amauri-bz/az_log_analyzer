@@ -5,6 +5,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QDir>
 
 /*!
     \brief Object constructor
@@ -79,31 +80,41 @@ bool ProjectMgr::ReadFile(QString proj_dir, QString proj_name) {
 /*!
     \brief Create a default project file
 */
-bool ProjectMgr::CreateProjFile(QString proj_dir, QString proj_name) const
+bool ProjectMgr::CreateProjFile(QString proj_dir, QString proj_name, QString proj_template) const
 {
-    QFile saveFile(proj_dir + "/" +proj_name + ".json");
-
-    if (!saveFile.open(QIODevice::WriteOnly)) {
-        qWarning("Couldn't open save file.");
-        return false;
+    if(proj_template!="") {
+        //Creating a new project based in a template
+        QFileInfo templateFile(QDir::currentPath()+"/templates/"+proj_template);
+        if (!templateFile.exists()) {
+            return false;
+        }
+        QFile::copy(templateFile.absoluteFilePath(), proj_dir + "/" +proj_name + ".json");
     }
+    else {
+        //Creating a new empty project
+        QFile saveFile(proj_dir + "/" +proj_name + ".json");
 
-    QJsonObject projFile;
+        if (!saveFile.open(QIODevice::WriteOnly)) {
+            qWarning("Couldn't open save file.");
+            return false;
+        }
 
-    projFile["project"] = proj_name;
-    projFile["sync"] = "false";
-    projFile["reload"] = 0;
+        QJsonObject projFile;
 
-    QJsonArray serversArray;
-    projFile["servers"] = serversArray;
+        projFile["sync"] = "false";
+        projFile["reload"] = 0;
 
-    QJsonArray filesArray;
-    projFile["files"] = filesArray;
+        QJsonArray serversArray;
+        projFile["servers"] = serversArray;
 
-    QJsonObject regexObject;
-    projFile["match"] = regexObject;
+        QJsonArray filesArray;
+        projFile["files"] = filesArray;
 
-    saveFile.write( QJsonDocument(projFile).toJson());
+        QJsonObject regexObject;
+        projFile["match"] = regexObject;
+
+        saveFile.write( QJsonDocument(projFile).toJson());
+    }
 
     projectMgr::Instance()->ReadFile(proj_dir, proj_name);
 

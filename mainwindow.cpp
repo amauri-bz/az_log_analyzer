@@ -83,7 +83,7 @@ void MainWindow::on_actionNew_Project_triggered()
 
     setProj_name(dialog.getProj_name());
     setProj_path(dialog.getProj_path());
-    emit s_new_proj(getProj_name(), getProj_path());
+    emit s_new_proj(getProj_name(), getProj_path(), dialog.getProj_template());
 }
 
 /*!

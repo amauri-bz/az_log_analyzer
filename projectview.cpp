@@ -37,14 +37,14 @@ void ProjectView::displayFileProj(QString proj_dir, QString proj_name) {
 /*!
     \brief Handle new project signal from main-window
 */
-void ProjectView::newProj(QString proj_name, QString proj_path)
+void ProjectView::newProj(QString proj_name, QString proj_path, QString proj_template)
 {
     QString proj_dir(proj_path + "/" + proj_name);
 
     if(!QDir(proj_dir).exists()) {
         QDir().mkdir(proj_dir);
 
-        projectMgr::Instance()->CreateProjFile(proj_dir, proj_name);
+        projectMgr::Instance()->CreateProjFile(proj_dir, proj_name, proj_template);
         displayFileProj(proj_dir, proj_name);
         emit s_set_proj(proj_dir);
         emit s_set_status("Success operation", 2000);

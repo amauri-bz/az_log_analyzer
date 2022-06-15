@@ -16,7 +16,7 @@ public:
     ~ProjectView();
 
 public slots:
-    void newProj(QString proj_name, QString proj_path);
+    void newProj(QString proj_name, QString proj_path, QString proj_template);
     void openProj(QString proj_name, QString proj_path);
     void saveProj();
 
